@@ -1,45 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
-import { Navbar } from "./src/Navbar";
-import { AddTodo } from "./src/AddTodo";
-import { Todo } from "./src/Todo";
+import { MainLayout } from "./src/MainLayout";
+import { TodoState } from "./src/context/todo/TodoState";
+import { ScreenState } from "./src/context/screen/ScreenState";
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
-
-  const addTodo = title => {
-    setTodos(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        title
-      }
-    ]);
-  };
-
-  const removeTodo = id => {
-    setTodos(prev => prev.filter(todo => todo.id !== id));
-  };
-
   return (
-    <View>
-      <Navbar title="Todo App" />
-      <View style={styles.container}>
-        <AddTodo onSubmit={addTodo} />
-
-        <ScrollView>
-          {todos.map(todo => (
-            <Todo todo={todo} key={todo.id} onRemove={removeTodo} />
-          ))}
-        </ScrollView>
-      </View>
-    </View>
+    <ScreenState>
+      <TodoState>
+        <MainLayout />
+      </TodoState>
+    </ScreenState>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 20,
-    paddingVertical: 20
-  }
-});
